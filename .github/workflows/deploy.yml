@@ -1,0 +1,34 @@
+name: Build and Push Docker Images to ECR
+
+# Trigger workflow on any push to the main branch
+# on:
+#   push:
+#       branches:
+#             - main
+#
+#             jobs:
+#               build-and-push:
+#                   runs-on: ubuntu-latest
+#
+#                       steps:
+#                           # Step 1: Checkout the repository
+#                               - name: Checkout code
+#                                     uses: actions/checkout@v3
+#
+#                                         # Step 2: Set up Docker for building and pushing images
+#                                             - name: Log in to Amazon ECR
+#                                                   id: login-ecr
+#                                                         uses: aws-actions/amazon-ecr-login@v1
+#
+#                                                             # Step 3: Build and push the web app image to ECR
+#                                                                 - name: Build and push webapp_image
+#                                                                       run: |
+#                                                                               docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_WEBAPP }} .
+#                                                                                       docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_WEBAPP }}
+#
+#                                                                                           # Step 4: Build and push the MySQL image to ECR
+#                                                                                               - name: Build and push mysql_image
+#                                                                                                     run: |
+#                                                                                                             docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_MYSQL }} -f Dockerfile_mysql .
+#                                                                                                                     docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_MYSQL }}
+#
