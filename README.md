@@ -53,3 +53,5 @@ export APP_COLOR=blue
 ```
 docker run -p 8080:8080 -e APP_COLOR=$APP_COLOR -e DBHOST=$DBHOST -e DBPORT=$DBPORT -e DBUSER=$DBUSER -e DBPWD=$DBPWD  my_app
 ```
+
+###Adding Sample line to trigger yaml file to build and deploy images into ECR for Assignment
