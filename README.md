@@ -55,3 +55,4 @@ docker run -p 8080:8080 -e APP_COLOR=$APP_COLOR -e DBHOST=$DBHOST -e DBPORT=$DBP
 ```
 
 ###Adding Sample line to trigger yaml file to build and deploy images into ECR for Assignment
+### triggering to use new verison of the image
