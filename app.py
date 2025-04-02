@@ -3,6 +3,7 @@ from pymysql import connections
 import os
 import random
 import argparse
+import boto3
 
 
 app = Flask(__name__)
@@ -13,6 +14,15 @@ DBPWD = os.environ.get("DBPWD") or "passwors"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT"))
+
+# Final Project environment variables
+GROUP_NAME = os.getenv('GROUP_NAME', 'DefaultGroup')
+SLOGAN = os.getenv('SLOGAN', 'We Build The Cloud')
+BUCKET_NAME = os.getenv('BUCKET_NAME')
+IMAGE_KEY = os.getenv('IMAGE_KEY', 'background.jpeg')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_SESSION_TOKEN = os.getenv('AWS_SESSION_TOKEN')
 
 # Create a connection to the MySQL database.
 db_conn = connections.Connection(
@@ -44,14 +54,32 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 # Generate a random color
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
+# Download image from S3 and store locally
+def download_image():
+    try:
+        # Ensure the static/ folder exists
+        os.makedirs("static", exist_ok=True)
+
+        s3 = boto3.client(
+            's3',
+            region_name=os.getenv("AWS_REGION", "us-east-1"),
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+            aws_session_token=AWS_SESSION_TOKEN
+        )
+        s3.download_file(BUCKET_NAME, IMAGE_KEY, 'static/background.jpeg')
+        print(f"[LOG] Downloaded background image from s3://{BUCKET_NAME}/{IMAGE_KEY}")
+    except Exception as e:
+        print(f"[ERROR] Failed to download image: {e}")
+
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR])
+    return render_template('addemp.html', group=GROUP_NAME, slogan=SLOGAN)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('about.html', color=color_codes[COLOR])
+    return render_template('about.html', group=GROUP_NAME, slogan=SLOGAN)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -132,8 +160,14 @@ if __name__ == '__main__':
     if COLOR not in color_codes:
         print("Color not supported. Received '" + COLOR + "' expected one of " + SUPPORTED_COLORS)
         exit(1)
+    
+    print(f"[DEBUG] BUCKET_NAME={BUCKET_NAME}")
+    print(f"[DEBUG] IMAGE_KEY={IMAGE_KEY}")
+    print(f"[DEBUG] AWS_ACCESS_KEY_ID={AWS_ACCESS_KEY_ID}")
 
-    app.run(host='0.0.0.0',port=8080,debug=True)
+    download_image()
+
+    app.run(host='0.0.0.0',port=8081,debug=True)
     
     #test
 #testing from test branch
