@@ -1,20 +1,15 @@
-<!doctype html>
-<title>Hello from Flask</title>
-<body style="background: {{ color }};"></body>
-<div style="color: #e4e4e4;
-    text-align:  center;
-    height: 90px;
-    vertical-align:  middle;">
-{% if name %}
-  <h1>Hello from {{ name }}!</h1>
-{% else %}
-  <h1>Hello From CLO835!</h1>
-{% endif %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Us - CLO835</title>
+</head>
 
-  {% if contents %}
-  <textarea rows="10" cols="50">
-    {{ contents }}
-  </textarea>
-  {% endif %}
+<body style="background-image: url('/static/background.jpg'); background-size: cover; color: white; text-align: center; font-family: Arial; padding-top: 100px;">
 
-</div>
+    <h1>{{ group }}</h1>
+    <p style="font-size: 18px;">{{ slogan }}</p>
+
+    <p>This is the CLO835 Final Project web application, enhanced with S3 image background, Kubernetes configuration, secrets, and EKS deployment.</p>
+
+</body>
+</html>
