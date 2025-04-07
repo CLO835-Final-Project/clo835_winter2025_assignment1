@@ -1,24 +1,36 @@
-name: Build and Push Docker Images to ECR
+name: Build, Test and Push Docker Images to ECR
 
 on:
   push:
     branches:
-      - main  ## Trigger workflow on push to the main branch
+      - main
+  workflow_dispatch:
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Set AWS_REGION as an environment variable
     - name: Set AWS Region
       run: echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
 
-    # Step 3: Authenticate with Amazon ECR
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest
+
+    - name: Run Unit Tests
+      run: pytest test_app.py
+
     - name: Log in to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
@@ -28,13 +40,12 @@ jobs:
         AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
 
-    # Step 4: Build and push the web app image to ECR
     - name: Build and push clo835-flask-app
       run: |
-        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/clo835-webapp .
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/clo835-webapp
+        IMAGE_TAG=${{ github.sha }}
+        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/clo835-webapp:$IMAGE_TAG .
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/clo835-webapp:$IMAGE_TAG
 
-    # Step 5: Build and push the MySQL image to ECR
     - name: Build and push mysql
       run: |
         docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/clo835-mysql -f Dockerfile_mysql .
