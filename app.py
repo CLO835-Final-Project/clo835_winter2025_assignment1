@@ -25,14 +25,19 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_SESSION_TOKEN = os.getenv('AWS_SESSION_TOKEN')
 
 # Create a connection to the MySQL database.
-db_conn = connections.Connection(
-    host= DBHOST,
-    port=DBPORT,
-    user= DBUSER,
-    password= DBPWD, 
-    db= DATABASE
-    
-)
+def get_db_connection():
+    try:
+        return connections.Connection(
+            host=DBHOST,
+            port=DBPORT,
+            user=DBUSER,
+            password=DBPWD, 
+            db=DATABASE
+        )
+    except Exception as e:
+        print(f"[WARNING] DB connection failed during test: {e}")
+        return None
+
 output = {}
 table = 'employee';
 
@@ -91,7 +96,8 @@ def AddEmp():
 
   
     insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
-    cursor = db_conn.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
     try:
         
@@ -116,7 +122,8 @@ def FetchData():
 
     output = {}
     select_sql = "SELECT emp_id, first_name, last_name, primary_skill, location from employee where emp_id=%s"
-    cursor = db_conn.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
     try:
         cursor.execute(select_sql,(emp_id))
