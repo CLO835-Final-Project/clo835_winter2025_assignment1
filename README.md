@@ -13,12 +13,13 @@ python3 app.py
 # Building and running 2 tier web application locally
 ### Building mysql docker image 
 ```
-docker build -t my_db -f Dockerfile_mysql . 
+docker build -t clo835-mysql -f Dockerfile_mysql .
+
 ```
 
 ### Building application docker image 
 ```
-docker build -t my_app -f Dockerfile . 
+docker build -t clo835-webapp -f Dockerfile . 
 ```
 
 ### Running mysql
