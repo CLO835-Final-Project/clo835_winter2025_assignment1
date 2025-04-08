@@ -174,7 +174,7 @@ if __name__ == '__main__':
 
     download_image()
 
-    app.run(host='0.0.0.0',port=8081,debug=True)
+    app.run(host='0.0.0.0',port=81,debug=True)
     
     #test
 #testing from test branch
