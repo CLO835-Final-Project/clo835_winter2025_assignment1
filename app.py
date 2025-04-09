@@ -102,11 +102,12 @@ def AddEmp():
     try:
         
         cursor.execute(insert_sql,(emp_id, first_name, last_name, primary_skill, location))
-        db_conn.commit()
+        conn.commit()
         emp_name = "" + first_name + " " + last_name
 
     finally:
         cursor.close()
+        conn.close()
 
     print("all modification done...")
     return render_template('addempoutput.html', name=emp_name, color=color_codes[COLOR])
@@ -141,6 +142,7 @@ def FetchData():
 
     finally:
         cursor.close()
+        conn.close()
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
                            lname=output["last_name"], interest=output["primary_skills"], location=output["location"], color=color_codes[COLOR])
