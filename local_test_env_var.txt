@@ -1,6 +1,0 @@
-export BUCKET_NAME=clo835-finalproject-s3
-export IMAGE_KEY=background.jpeg
-export AWS_ACCESS_KEY_ID=YOUR_KEY_ID
-export AWS_SECRET_ACCESS_KEY=YOUR_SECRET
-export GROUP_NAME="Cloud Ninjas"
-export SLOGAN="We Build Smart"
