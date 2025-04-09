@@ -104,7 +104,7 @@ def AddEmp():
     try:
         
         cursor.execute(insert_sql,(emp_id, first_name, last_name, primary_skill, location))
-        db_conn.commit()
+        conn.commit()
         emp_name = "" + first_name + " " + last_name
 
     finally:
