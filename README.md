@@ -7,6 +7,7 @@ sudo apt-get install mysql-client -y
 # Running application locally
 ```
 pip3 install -r requirements.txt
+pip install flask pymysql boto3 --user
 python3 app.py
 ```
 

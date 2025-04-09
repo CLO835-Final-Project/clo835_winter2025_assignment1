@@ -1,0 +1,26 @@
+# Ignore zip and executable files
+*.zip
+*.exe
+
+# Ignore local environment/system files
+.DS_Store
+Thumbs.db
+
+# Ignore Python cache and bytecode
+__pycache__/
+*.py[cod]
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore virtual environments (if any)
+venv/
+.env/
+*.env
+.sh
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore Kubernetes manifests backup (if any)
+*.bak

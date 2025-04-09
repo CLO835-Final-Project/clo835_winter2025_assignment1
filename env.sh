@@ -1,0 +1,11 @@
+export GROUP_NAME="Cloud Ninjas"
+export SLOGAN="Deploy or Die"
+export BUCKET_NAME="clo835-finalproject-s3"
+export IMAGE_KEY="background.jpeg"
+export AWS_ACCESS_KEY_ID="AKIA6D6JBVT4VRT3MGHM"
+export AWS_SECRET_ACCESS_KEY="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"
+export DBHOST="127.0.0.1"
+export DBUSER="root"
+export DATABASE="employees"
+export DBPWD="pw"
+export DBPORT=3306

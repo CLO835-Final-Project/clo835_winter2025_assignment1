@@ -97,6 +97,8 @@ def AddEmp():
   
     insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
     conn = get_db_connection()
+    if conn is None:
+        return "Database connection failed", 500
     cursor = conn.cursor()
 
     try:
@@ -123,6 +125,9 @@ def FetchData():
     output = {}
     select_sql = "SELECT emp_id, first_name, last_name, primary_skill, location from employee where emp_id=%s"
     conn = get_db_connection()
+    if conn is None:
+        return "Database connection failed", 500
+
     cursor = conn.cursor()
 
     try:
