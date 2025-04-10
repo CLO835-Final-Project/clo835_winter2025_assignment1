@@ -97,12 +97,14 @@ def AddEmp():
   
     insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
     conn = get_db_connection()
+    if conn is None:
+        return "Database connection failed", 500
     cursor = conn.cursor()
 
     try:
         
         cursor.execute(insert_sql,(emp_id, first_name, last_name, primary_skill, location))
-        db_conn.commit()
+        conn.commit()
         emp_name = "" + first_name + " " + last_name
 
     finally:
@@ -123,6 +125,9 @@ def FetchData():
     output = {}
     select_sql = "SELECT emp_id, first_name, last_name, primary_skill, location from employee where emp_id=%s"
     conn = get_db_connection()
+    if conn is None:
+        return "Database connection failed", 500
+
     cursor = conn.cursor()
 
     try:
@@ -174,8 +179,5 @@ if __name__ == '__main__':
 
     download_image()
 
-    app.run(host='0.0.0.0',port=8081,debug=True)
+    app.run(host='0.0.0.0',port=81,debug=True)
     
-    #test
-#testing from test branch
-#test
