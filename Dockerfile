@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 RUN apt-get update -y
 
@@ -7,9 +7,14 @@ COPY . /app
 WORKDIR /app
 
 # Install Python, pip, and mysql-client
-RUN set -xe \
-    && apt-get update -y \
-    && apt-get install -y python3 python3-pip mysql-client
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    python3 \
+    python3-pip \
+    default-mysql-client && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 
 # Install Python dependencies
 RUN pip3 install --upgrade pip
